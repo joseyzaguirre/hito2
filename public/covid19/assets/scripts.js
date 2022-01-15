@@ -16,6 +16,8 @@ async function getToken(email, password) {
   }
 }
 
+// función para llamar Casos Confirmados de Chile
+
 async function confirmadosChile() {
   const token = await localStorage.getItem("token")
   const datos = await fetch('http://localhost:3000/api/confirmed', {
@@ -32,6 +34,7 @@ async function confirmadosChile() {
   return confirmadosChile10
 }
 
+//función para llamar Casos de Muertos de Chile
 async function muertosChile() {
   const token = await localStorage.getItem("token")
   const datos = await fetch('http://localhost:3000/api/deaths', {
@@ -47,6 +50,8 @@ async function muertosChile() {
   }
   return muertosChile10
 }
+
+//funcion para grafico situación Chile
 
 async function graficoChile() {
 
@@ -126,7 +131,7 @@ async function graficoChile() {
 }
 
 
-// funcion para esconder el login y mostrar el contenido
+// funciones para esconder el login y mostrar el contenido
 function domLogin() {
   $('#div-form').removeClass('d-block').addClass('d-none');
   $('#contenido').removeClass('d-none').addClass('d-block');
@@ -209,9 +214,7 @@ function dataLink() {
       console.log(dataCountry);
 
       $('#country-modal').modal('show');
-      // $('.modal-body').html(
-      //   `<div id="chartContainer-country" style="height: 100%; width: 100%;"></div>`
-      // );
+      
 
       iniciarGrafico([dataCountry], 'chartContainer-country');
     });
@@ -220,7 +223,7 @@ function dataLink() {
   }
 }
 
-// funcion para renderizar el grafico
+// funcion para renderizar el grafico principal
 function iniciarGrafico(dataGrafico, container = 'chartContainer') {
   // datapoints
   const confirmados = [];
@@ -320,7 +323,7 @@ $('#login-form').on('submit', async function (event) {
     console.error(error);
   }
 });
-//logout button
+//funciones para logout button
 $("#logout").on("click", function () {
     localStorage.removeItem("token");
     window.location.reload()
@@ -331,19 +334,19 @@ $("#logoutChile").on("click", function () {
   window.location.reload()
 });
 
-//situacion chile button
+//funcion para ir a situacion chile 
 $("#situacionChile").on("click", function () {
   situacionChile() 
 });
 
-//home button
+//funcion para ir a home
 $("#homeChile").on("click", function () {
   domLogin()
 });
 
 
 
-
+//funcion para recargar pagina home
 (async function init () {
     const token = localStorage.getItem("token");
     if (token == null ) {
