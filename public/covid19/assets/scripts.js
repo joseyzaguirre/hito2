@@ -23,8 +23,13 @@ async function confirmadosChile() {
       Authorization: `Bearer ${token}`
     }
   })
-  const confirmadosChile = await datos.json()
-  return confirmadosChile.data
+  const datos2 = await datos.json()
+  const confirmadosChile = datos2.data
+  const confirmadosChile10 = []
+  for (let i = 0; i < confirmadosChile.length; i+=10) {
+    confirmadosChile10.push(confirmadosChile[i])
+  }
+  return confirmadosChile10
 }
 
 async function muertosChile() {
@@ -34,8 +39,13 @@ async function muertosChile() {
       Authorization: `Bearer ${token}`
     }
   })
-  const muertosChile = await datos.json()
-  return muertosChile.data
+  const datos2 = await datos.json()
+  const muertosChile = datos2.data
+  const muertosChile10 = []
+  for (let i = 0; i < muertosChile.length; i+=10 ) {
+    muertosChile10.push(muertosChile[i])
+  }
+  return muertosChile10
 }
 // funcion para esconder el login y mostrar el contenido
 function domLogin() {
@@ -244,6 +254,8 @@ $("#logout").on("click", function () {
             // render tabla
             const tablaData = await getAllCountriesData();
             renderTabla(tablaData);
+            confirmadosChile();
+            muertosChile();
             } catch (error) {
                 console.log('Error');
                 console.error(error);
