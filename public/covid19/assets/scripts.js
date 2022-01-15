@@ -16,6 +16,27 @@ async function getToken(email, password) {
   }
 }
 
+async function confirmadosChile() {
+  const token = await localStorage.getItem("token")
+  const datos = await fetch('http://localhost:3000/api/confirmed', {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  const confirmadosChile = await datos.json()
+  return confirmadosChile.data
+}
+
+async function muertosChile() {
+  const token = await localStorage.getItem("token")
+  const datos = await fetch('http://localhost:3000/api/deaths', {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  const muertosChile = await datos.json()
+  return muertosChile.data
+}
 // funcion para esconder el login y mostrar el contenido
 function domLogin() {
   $('#div-form').removeClass('d-block').addClass('d-none');
