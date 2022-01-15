@@ -20,7 +20,16 @@ async function getToken(email, password) {
 function domLogin() {
   $('#div-form').removeClass('d-block').addClass('d-none');
   $('#contenido').removeClass('d-none').addClass('d-block');
+  $('#navChile').removeClass('d-block').addClass('d-none');
 }
+
+function situacionChile() {
+  $('#div-form').removeClass('d-block').addClass('d-none');
+  $('#contenido').removeClass('d-block').addClass('d-none');
+  $('#navChile').removeClass('d-none').addClass('d-block');
+}
+
+
 
 // funcion para traer data de todos los paises, retorna array de objetos
 async function getAllCountriesData() {
@@ -206,6 +215,24 @@ $("#logout").on("click", function () {
     localStorage.removeItem("token");
     window.location.reload()
 });
+
+$("#logoutChile").on("click", function () {
+  localStorage.removeItem("token");
+  window.location.reload()
+});
+
+//situacion chile button
+$("#situacionChile").on("click", function () {
+  situacionChile() 
+});
+
+//home button
+$("#homeChile").on("click", function () {
+  domLogin()
+});
+
+
+
 
 (async function init () {
     const token = localStorage.getItem("token");
