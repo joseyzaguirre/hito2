@@ -26,7 +26,7 @@ async function confirmadosChile() {
   const datos2 = await datos.json()
   const confirmadosChile = datos2.data
   const confirmadosChile10 = []
-  for (let i = 0; i < confirmadosChile.length; i+=10) {
+  for (let i = 0; i < confirmadosChile.length; i+=20) {
     confirmadosChile10.push(confirmadosChile[i])
   }
   return confirmadosChile10
@@ -42,11 +42,90 @@ async function muertosChile() {
   const datos2 = await datos.json()
   const muertosChile = datos2.data
   const muertosChile10 = []
-  for (let i = 0; i < muertosChile.length; i+=10 ) {
+  for (let i = 0; i < muertosChile.length; i+=20 ) {
     muertosChile10.push(muertosChile[i])
   }
   return muertosChile10
 }
+
+async function graficoChile() {
+
+  const confirmados = await confirmadosChile();
+  const muertos = await muertosChile();
+
+  const dataConfirmados = []
+  const dataMuertos = []
+
+  for (confirmado of confirmados) {
+    dataConfirmados.push(
+      {x: new Date(confirmado.date), y: confirmado.total}
+    )
+  }
+  for (muerto of muertos) {
+    dataMuertos.push(
+      {x: new Date(muerto.date), y: muerto.total}
+    )
+  }
+
+
+  var chart = new CanvasJS.Chart("chartChile", {
+    animationEnabled: true,
+    theme: "light2",
+    title:{
+      text: "Situación Chile"
+    },
+    axisX:{
+      valueFormatString: "DD/MMM/YYYY",
+      crosshair: {
+        enabled: true,
+        snapToDataPoint: true
+      }
+    },
+    axisY: {
+      includeZero: true,
+      crosshair: {
+        enabled: true
+      }
+    },
+    toolTip:{
+      shared:true
+    },  
+    legend:{
+      cursor:"pointer",
+      verticalAlign: "top",
+      horizontalAlign: "center",
+      dockInsidePlotArea: false,
+      itemclick: toogleDataSeries
+    },
+    data: [{
+      type: "line",
+      showInLegend: true,
+      name: "Confirmados",
+      markerType: "circle",
+      xValueFormatString: "DD/MMM/YYYY",
+      color: "#F08080",
+      dataPoints: dataConfirmados
+    },
+    {
+      type: "line",
+      showInLegend: true,
+      name: "Muertos",
+      dataPoints: dataMuertos
+    }]
+  });
+  chart.render();
+  
+  function toogleDataSeries(e){
+    if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+      e.dataSeries.visible = false;
+    } else{
+      e.dataSeries.visible = true;
+    }
+    chart.render();
+  }
+}
+
+
 // funcion para esconder el login y mostrar el contenido
 function domLogin() {
   $('#div-form').removeClass('d-block').addClass('d-none');
@@ -254,8 +333,7 @@ $("#logout").on("click", function () {
             // render tabla
             const tablaData = await getAllCountriesData();
             renderTabla(tablaData);
-            confirmadosChile();
-            muertosChile();
+            graficoChile();
             } catch (error) {
                 console.log('Error');
                 console.error(error);
