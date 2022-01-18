@@ -303,7 +303,10 @@ $('#login-form').on('submit', async function (event) {
     const token = await getToken(email, password);
 
     //en caso de que las credenciales sean invalidas
-    if (!token) return $('.form-control').addClass('is-invalid');
+    if (!token) {
+      alert("Correo y/o contraseña incorrecta!")
+      return $('.form-control').addClass('is-invalid')
+    }
 
     //guarda token en localStorage
     localStorage.setItem('token', token);
