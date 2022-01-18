@@ -304,7 +304,11 @@ $('#login-form').on('submit', async function (event) {
 
     //en caso de que las credenciales sean invalidas
     if (!token) {
-      alert("Correo y/o contraseña incorrecta!")
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Correo y/o contraseña incorrecta!',
+      })
       return $('.form-control').addClass('is-invalid')
     }
 
